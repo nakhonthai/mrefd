@@ -225,7 +225,7 @@ void CM17Protocol::Task(void)
 			if (cs.GetCS(4).compare("M17-")) {
 				// find the regular client & remove it
 				CClients *clients = g_Reflector.GetClients();
-				std::shared_ptr<CClient>client = clients->FindClient(ip);
+				std::shared_ptr<CClient>client = clients->FindClient(cs,ip);
 				if ( client != nullptr )
 				{
 					// ack disconnect packet
