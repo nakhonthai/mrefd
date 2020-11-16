@@ -162,7 +162,7 @@ void CM17Protocol::Task(void)
 			std::cout << "Connect packet for module " << mod << " from " << cs << " at " << ip << std::endl;
 
 			// callsign authorized?
-			if ( g_GateKeeper.MayLink(cs, ip) )
+			if ( g_GateKeeper.MayLink(cs, ip, mods) )
 			{
 				// valid module ?
 				if ( g_Reflector.IsValidModule(mod) )
