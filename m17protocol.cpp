@@ -162,7 +162,7 @@ void CM17Protocol::Task(void)
 			std::cout << "Connect packet for module " << mod << " from " << cs << " at " << ip << std::endl;
 
 			// callsign authorized?
-			if ( g_GateKeeper.MayLink(cs, ip) )
+			if ( g_GateKeeper.MayLink(cs, ip, mods) )
 			{
 				// valid module ?
 				if ( g_Reflector.IsValidModule(mod) )
@@ -225,7 +225,7 @@ void CM17Protocol::Task(void)
 			if (cs.GetCS(4).compare("M17-")) {
 				// find the regular client & remove it
 				CClients *clients = g_Reflector.GetClients();
-				std::shared_ptr<CClient>client = clients->FindClient(ip);
+				std::shared_ptr<CClient>client = clients->FindClient(cs,ip);
 				if ( client != nullptr )
 				{
 					// ack disconnect packet
