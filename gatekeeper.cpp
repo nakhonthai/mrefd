@@ -88,7 +88,7 @@ bool CGateKeeper::MayLink(const CCallsign &callsign, const CIp &ip, char *module
 	if (callsign.GetCS(4).compare("M17-"))
 	{
 		auto clients = g_Reflector.GetClients();
-		if(clients->FindClient(callsign,*modules,ip))
+		if(clients->FindClient(ip))
 			ok = false;
 		else
 			ok = IsNodeListedOk(callsign);
