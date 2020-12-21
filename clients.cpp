@@ -122,70 +122,17 @@ std::shared_ptr<CClient> CClients::FindClient(const CIp &Ip)
 	// find client
 	for ( auto it=begin(); it!=end(); it++ )
 	{
-		if ( (*it)->GetIp() == Ip )
+#ifdef MCLIENTS
+		if ( ((*it)->GetIp() == Ip) && ((*it)->GetIp().GetPort() == Ip.GetPort()) )
+#else
+		if ((*it)->GetIp() == Ip)
+#endif
 		{
 			return *it;
 		}
 	}
 
 	// done
-	return nullptr;
-}
-
-std::shared_ptr<CClient> CClients::FindClient(const CIp &Ip, char ReflectorModule)
-{
-	// find client
-	for ( auto it=begin(); it!=end(); it++ )
-	{
-		if ( ((*it)->GetIp() == Ip)  && ((*it)->GetReflectorModule() == ReflectorModule) )
-		{
-			return *it;
-		}
-	}
-
-	// done
-	return nullptr;
-}
-
-std::shared_ptr<CClient> CClients::FindClient(const CCallsign &Callsign, const CIp &Ip)
-{
-	// find client
-	for ( auto it=begin(); it!=end(); it++ )
-	{
-		if ( (*it)->GetCallsign().HasSameCallsign(Callsign) && ((*it)->GetIp() == Ip) )
-		{
-			return *it;
-		}
-	}
-
-	return nullptr;
-}
-
-std::shared_ptr<CClient> CClients::FindClient(const CCallsign &Callsign, char module, const CIp &Ip)
-{
-	// find client
-	for ( auto it=begin(); it!=end(); it++ )
-	{
-		if ( (*it)->GetCallsign().HasSameCallsign(Callsign) && ((*it)->GetModule() == module) && ((*it)->GetIp() == Ip) )
-		{
-			return *it;
-		}
-	}
-
-	return nullptr;
-}
-
-std::shared_ptr<CClient> CClients::FindClient(const CCallsign &Callsign)
-{
-	// find client
-	for ( auto it=begin(); it!=end(); it++ )
-	{
-		if ( (*it)->GetCallsign().HasSameCallsign(Callsign) )
-		{
-			return *it;
-		}
-	}
-
 	return nullptr;
 }
 
@@ -200,24 +147,15 @@ std::shared_ptr<CClient> CClients::FindNextClient(std::list<std::shared_ptr<CCli
 	return nullptr;
 }
 
-std::shared_ptr<CClient> CClients::FindNextClient(const CIp &Ip, std::list<std::shared_ptr<CClient>>::iterator &it)
-{
-	while ( it != end() )
-	{
-		if ((*it)->GetIp() == Ip )
-		{
-			return *it++;
-		}
-		it++;
-	}
-	return nullptr;
-}
-
 std::shared_ptr<CClient> CClients::FindNextClient(const CCallsign &Callsign, const CIp &Ip, std::list<std::shared_ptr<CClient>>::iterator &it)
 {
 	while ( it != end() )
 	{
+#ifdef MCLIENTS
+		if ( ((*it)->GetIp() == Ip) && ((*it)->GetIp().GetPort() == Ip.GetPort()) && (*it)->GetCallsign().HasSameCallsign(Callsign) )
+#else
 		if ( ((*it)->GetIp() == Ip) && (*it)->GetCallsign().HasSameCallsign(Callsign) )
+#endif
 		{
 			return *it++;
 		}
